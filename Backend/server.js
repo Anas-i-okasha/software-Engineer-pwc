@@ -1,3 +1,5 @@
+// Run the server using Express.js
+
 const express = require('express');
 require('dotenv').config()
 const mainRouter = require('./routes/main-routes')
