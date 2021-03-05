@@ -55,16 +55,17 @@ const bcrypt = require("bcrypt");
     
         
     }
-
+   /* send the complaint from user to admin */
     const userComplaint=(req , res)=>{
         const newMessage = req.body
-        const sql = `INSERT INTO messages (name , email , mobilePhone , message) VALUeS (?,?,?,?)`;
+        const sql = `INSERT INTO messages (name , email , mobilePhone , message) VALUES (?,?,?,?)`;
         mysql.query(sql,[newMessage.name , newMessage.email , newMessage.mobilePhone , newMessage.message] ,(err,result,field)=>{
             if(err){
                 console.log('ERR:', err)
 
             }else{
                 res.json("the message added success")
+                console.log(req.body)
             }
         } )
 

@@ -1,8 +1,50 @@
-import React from 'react'
+import React from 'react';
+import {useState} from 'react';
+import Axios from 'axios';
+import swal from 'sweetalert';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './dashboard.css'
 
- function dashboard() {
+ const Dashboard=()=> {
+    
+     const [name , setFullName]=useState("")
+     const [email , setEmail]=useState("")
+     const [mobilePhone , setPhone]=useState("")
+     const [message , setMessage]=useState("")
+
+     const clearForm=()=>{
+         
+         setFullName('')
+         setPhone('')
+         setEmail('')
+         setMessage('');
+     }
+
+     const addNewMessage=()=>{
+         if(name===''|| email==='' || mobilePhone===''|| message===''){
+            swal({
+                icon:'error',
+                title:'oops',
+                text:'All field is requierd ',
+                timer:1500,
+            })
+            return;
+         }
+         const obj={name , email , mobilePhone , message}
+         Axios.post('http://localhost:3000/dashboard' ,obj ).then((responce)=>{
+             console.log(responce.data)
+             swal({
+                position: 'top-end',
+                icon: 'success',
+                title: ' Thanks for your message. We will contact you very soon ',
+                timer: 2500
+              })
+             
+         })
+         .catch((err)=>{
+             console.log('The err:',err)
+         })
+     }
     return (
         <div className='container'>
             <div className='row'>
@@ -10,12 +52,20 @@ import './dashboard.css'
                     <div className='group'>
                         <h2 className='header'> A Coustmer complaint </h2>
                     <form className='item'>
-                        <label className='form-label'>Full Name</label><input type='text' className='form-control' placeholder='Enter your Full Name'/>
-                        <label className='form-label'>Email Adress</label><input type='text' className='form-control' placeholder='Enter your Email Adress'/>
-                        <label className='form-label'> Mobile phone</label><input type='number' className='form-control' placeholder='Enter your mobile phone'/>
-                        <label className='form-label'>Message</label><textarea ty className='form-control valid'>Write your complaint here....</textarea>
+                        <label className='form-label'>Full Name</label><input type='text' className='form-control' placeholder='Enter your Full Name' onChange={(event)=>{
+                            setFullName(event.target.value)
+                        }}/>
+                        <label className='form-label'>Email Adress</label><input type='text' className='form-control' placeholder='Enter your Email Adress' onChange={(event)=>{
+                            setEmail(event.target.value)
+                        }}/>
+                        <label className='form-label'> Mobile phone</label><input type='number' className='form-control' placeholder='Enter your mobile phone' onChange={(event)=>{
+                            setPhone(event.target.value)
+                        }}/>
+                        <label className='form-label'>Message</label><textarea ty className='form-control valid' onChange={(event)=>{
+                            setMessage(event.target.value)
+                        }}>Write your complaint here....</textarea>
                         <center>
-                        <button type='button' className='btn btn-primary lg'>Send</button>
+                        <button type='button' className='btn btn-primary lg' onClick={()=>addNewMessage()}>Send</button>
                         </center>
                         
                     </form>
@@ -30,4 +80,4 @@ import './dashboard.css'
         </div>
     )
 }
-export default dashboard;
+export default Dashboard;
