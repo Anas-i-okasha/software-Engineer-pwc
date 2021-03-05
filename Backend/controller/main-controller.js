@@ -56,8 +56,22 @@ const bcrypt = require("bcrypt");
         
     }
 
+    const userComplaint=(req , res)=>{
+        const newMessage = req.body
+        const sql = `INSERT INTO messages (name , email , mobilePhone , message) VALUeS (?,?,?,?)`;
+        mysql.query(sql,[newMessage.name , newMessage.email , newMessage.mobilePhone , newMessage.message] ,(err,result,field)=>{
+            if(err){
+                console.log('ERR:', err)
+
+            }else{
+                res.json("the message added success")
+            }
+        } )
+
+    }
 
 module.exports={
     userSignup,
-    userLogin
+    userLogin,
+    userComplaint
 }
