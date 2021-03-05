@@ -1,32 +1,78 @@
 import React from 'react';
+import {useState} from 'react';
+import Axios from 'axios';
+import swal from 'sweetalert';
+import { BrowserRouter as Router, Route , Link , useHistory} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Login/Login.css'
-import { BrowserRouter as Router, Route , Link } from 'react-router-dom';
 
- function signup() {
+
+ const Signup=()=> {
+    const history = useHistory()
+    const [name , setname] = useState('')
+    const [email , setemail] = useState('')
+    const [password , setpassword]=useState('')
+
+    const addUser=()=>{
+        if(!name || !email || !password){
+            swal({
+                icon:'error',
+                title:'oops',
+                text:'Enter your information!',
+                timer:1500,
+            })
+            console.log('Enter valid information')
+            return 
+          }
+          Axios.post('http://localhost:3000/signup' , {name:name , email:email , password:password})
+          .then((responce)=>{
+           if(responce.data === 'Thank you for create your account'){   
+               history.push('/')
+               swal({
+                position: 'top-end',
+                icon: 'success',
+                title: 'create acount Successfully',
+                timer: 1500
+              })
+
+               }else{
+                   console.log('Plz enter valid information')
+               }
+          })
+          .catch((err)=>{
+           console.log(err)
+          })
+        
+    }
     return (
         <div className='container'>
             <div className='row justify-content-center'>
                 <div className='col-12 col-sm-6 col-md-3'>
                 <form className='form-container'>
                     <h2 className='header'>Sign up</h2>
-  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Full Name</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder='Enter your full name'/>
+  <div className="mb-3">
+    <label  className="form-label">Full Name</label>
+    <input type="text" className="form-control" aria-describedby="emailHelp" placeholder='Enter your full name' onChange={(event)=>{
+        setname(event.target.value)
+    }} />
     
   </div>
-  <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Email Adress</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" placeholder='Enter your email adress'/>
+  <div className="mb-3">
+    <label  className="form-label">Email Adress</label>
+    <input type="email" className="form-control"  placeholder='Enter your email adress' onChange={(event)=>{
+        setemail(event.target.value)
+    }}/>
   </div>
-  <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" placeholder='Enter your email adress' placeholder='Enter your password'/>
+  <div className="mb-3">
+    <label  className="form-label">password</label>
+    <input type="password" className="form-control" placeholder='Enter your password' onChange={(event)=>{
+        setpassword(event.target.value)
+    }}  />
   </div>
 
-  <button type="submit" class="btn btn-primary btn-block">Submit</button>
+  <button type="button" className="btn btn-primary btn-block" onClick={()=>addUser()}>Submit</button>
      
-     <div className='link'>   <Link to='/' > You already have account??   </Link>  </div>   
+     <div className='link'>  <Link to='/' > You already have an account?   </Link>  </div>   
 </form>
                 </div>
             </div>
@@ -34,4 +80,4 @@ import { BrowserRouter as Router, Route , Link } from 'react-router-dom';
         </div>
     )
 }
-export default signup;
+export default Signup;

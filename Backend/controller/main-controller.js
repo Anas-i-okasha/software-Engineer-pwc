@@ -1,16 +1,15 @@
 const mysql = require('../db');
 const bcrypt = require("bcrypt");
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 
 
 /* Create account fistly we need to check if the user already have account or not     */
-    const userSignup=  (req , res)=>{
+    const userSignup= (req , res)=>{
         const {name  , email , password}=req.body
         mysql.query(`SELECT * FROM users WHERE email = ?` , [email] , async (error , result , field)=>{
             if(error){
                 console.log('ERR' , error)
             }
-        // To check if the user exist in our database or not
             if(result.length>0){
                 res.json(" this email is already exist ") 
             } else {(result.length === 0)
@@ -27,8 +26,6 @@ const jwt = require('jsonwebtoken');
             }
         })
     }
-
-
 
     /*  the user login and check if the email and hash password is match redirected to dashbord */
     const userLogin = async (req , res)=>{
