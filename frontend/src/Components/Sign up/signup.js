@@ -9,12 +9,12 @@ import '../Login/Login.css'
 
  const Signup=()=> {
     const history = useHistory()
-    const [name , setname] = useState('')
+    const [user_name , setname] = useState('')
     const [email , setemail] = useState('')
     const [password , setpassword]=useState('')
 
     const addUser=()=>{
-        if(!name || !email || !password){
+        if(!user_name || !email || !password){
             swal({
                 icon:'error',
                 title:'oops',
@@ -24,7 +24,7 @@ import '../Login/Login.css'
             console.log('Enter valid information')
             return 
           }
-          Axios.post('http://localhost:3000/signup' , {name:name , email:email , password:password})
+          Axios.post('http://localhost:3000/signup' , {user_name:user_name , email:email , password:password})
           .then((responce)=>{
            if(responce.data === 'Thank you for create your account'){   
                history.push('/')

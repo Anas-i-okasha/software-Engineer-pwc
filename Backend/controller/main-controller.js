@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 
 /* Create account fistly we need to check if the user already have account or not     */
     const userSignup= (req , res)=>{
-        const {name  , email , password}=req.body
+        const {user_name  , email , password}=req.body
         mysql.query(`SELECT * FROM users WHERE email = ?` , [email] , async (error , result , field)=>{
             if(error){
                 console.log('ERR' , error)
@@ -16,7 +16,7 @@ const bcrypt = require("bcrypt");
                 const newUser = req.body;
                 newUser.password = await bcrypt.hash(password , parseInt(process.env.SALT) )
         // if the user does't exist in our database will create new account to make him reach our dashboard 
-             mysql.query( `INSERT INTO users SET ? `,{name:name , email:email , password:newUser.password} , (err , results , field)=>{
+             mysql.query( `INSERT INTO users SET ? `,{user_name:user_name , email:email , password:newUser.password} , (err , results , field)=>{
                  if(err){
                      console.log(err)
                  } else{
@@ -58,8 +58,8 @@ const bcrypt = require("bcrypt");
    /* send the complaint from user to admin */
     const userComplaint=(req , res)=>{
         const newMessage = req.body
-        const sql = `INSERT INTO messages (name , email , mobilePhone , message) VALUES (?,?,?,?)`;
-        mysql.query(sql,[newMessage.name , newMessage.email , newMessage.mobilePhone , newMessage.message] ,(err,result,field)=>{
+        const sql = `INSERT INTO messages (message_name , message_subject , Phone , message) VALUES (?,?,?,?)`;
+        mysql.query(sql,[newMessage.message_name , newMessage.message_subject, newMessage.Phone , newMessage.message , newMessage.user_id] ,(err,result,field)=>{
             if(err){
                 console.log('ERR:', err)
 
@@ -71,8 +71,35 @@ const bcrypt = require("bcrypt");
 
     }
 
+    const getAllComplaint=(req , res)=>{
+        const sql = `SELECT * FROM messages`;
+        mysql.query(sql , (err, result , field)=>{
+            if(err){
+                console.log("err:",err)
+
+            }else{
+                res.json(result)
+            }
+        })
+
+    }
+
+    const getMyMessage=(req , res)=>{
+    //    const {user_id}=req.body;
+    //    const sql = `SELECT * from m.messages inner join m.user on m.user_id=users.user_id where m.user_id=${user_id} `;
+    //    mysql.query(sql , (err , result , field)=>{
+    //        if(err){
+    //            console.log(err)
+    //        }else{
+    //            res.json(result)
+    //        }
+    //    })
+    }
 module.exports={
     userSignup,
     userLogin,
-    userComplaint
+    userComplaint,
+    getAllComplaint,
+    getMyMessage
 }
+

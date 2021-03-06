@@ -6,22 +6,23 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './dashboard.css'
 
  const Dashboard=()=> {
-    
-     const [name , setFullName]=useState("")
-     const [email , setEmail]=useState("")
-     const [mobilePhone , setPhone]=useState("")
+     const [message_name , setFullName]=useState("")
+     const [message_subject , setSubject]=useState("")
+     const [Phone , setPhone]=useState("")
      const [message , setMessage]=useState("")
 
-     const clearForm=()=>{
-         
-         setFullName('')
-         setPhone('')
-         setEmail('')
-         setMessage('');
-     }
+    //  const getAllComplaint=()=>{
+    //      Axios.get('http://localhost:3000/admin').then((responce)=>{
+    //          setMessages(responce.data)
+    //      })
+    //      .catch((err)=>{
+    //          console.log(err)
+
+    //      })
+    //  }
 
      const addNewMessage=()=>{
-         if(name===''|| email==='' || mobilePhone===''|| message===''){
+         if(message_name===''|| message_subject===''|| message==='' || Phone===''){
             swal({
                 icon:'error',
                 title:'oops',
@@ -30,7 +31,7 @@ import './dashboard.css'
             })
             return;
          }
-         const obj={name , email , mobilePhone , message}
+         const obj={message_name , message_subject , Phone, message}
          Axios.post('http://localhost:3000/dashboard' ,obj ).then((responce)=>{
              console.log(responce.data)
              swal({
@@ -55,8 +56,8 @@ import './dashboard.css'
                         <label className='form-label'>Full Name</label><input type='text' className='form-control' placeholder='Enter your Full Name' onChange={(event)=>{
                             setFullName(event.target.value)
                         }}/>
-                        <label className='form-label'>Email Adress</label><input type='text' className='form-control' placeholder='Enter your Email Adress' onChange={(event)=>{
-                            setEmail(event.target.value)
+                        <label className='form-label'>subject</label><input type='text' className='form-control' placeholder='Enter the subject' onChange={(event)=>{
+                            setSubject(event.target.value)
                         }}/>
                         <label className='form-label'> Mobile phone</label><input type='number' className='form-control' placeholder='Enter your mobile phone' onChange={(event)=>{
                             setPhone(event.target.value)
@@ -69,6 +70,7 @@ import './dashboard.css'
                         </center>
                         
                     </form>
+                    {/* <div>  {messages.map((value , i)=><Admin oneComplaint={value} getAll={getAllComplaint} />)}  </div> */}
                     
                     </div>
                     
