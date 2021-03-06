@@ -17,8 +17,9 @@ Create table messages(
     message_subject varchar(255),
     Phone int ,
     message varchar (255),
+    status varchar (255) DEFAULT "PENDING",     
     user_id int,
     PRIMARY KEY (message_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     
-);
+); 

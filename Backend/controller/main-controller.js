@@ -95,11 +95,39 @@ const bcrypt = require("bcrypt");
     //        }
     //    })
     }
+
+    const deleteMessageById=(req , res)=>{
+        const deleteItem= [req.params.message_id];
+      const sql = `DELETE FROM messages where message_id=?`;
+      mysql.query(sql , deleteItem , (err , result , field)=>{
+          if(err){
+              console.log(err)
+          }else{
+              res.json("the message deleted sucssesfuly")
+          }
+      })
+    }
+
+    const statusUpdate=(req , res)=>{
+        const emp = [req.body.newStatus , req.body.message_id ];
+        const sql = `UPDATE messages SET status=? where message_id=?`;
+        mysql.query(sql, emp , (err,result,fied)=>{
+            if(err){
+                console.log(err)
+            }else{
+                res.json(result)
+                console.log(result)
+            }
+        });
+
+    }
 module.exports={
     userSignup,
     userLogin,
     userComplaint,
     getAllComplaint,
-    getMyMessage
+    getMyMessage,
+    deleteMessageById,
+    statusUpdate
 }
 

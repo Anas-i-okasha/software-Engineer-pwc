@@ -4,6 +4,7 @@ import Navbar from '../Profile/Navbar/Navbar'
 
  const Admin=()=> {
     const [messages , setMessages]=useState([])
+    const [status , setNewStatus]=useState('')
 
     const getAllComplaint=()=>{
         Axios.get('http://localhost:3000/admin').then((responce)=>{
@@ -18,6 +19,27 @@ import Navbar from '../Profile/Navbar/Navbar'
     useEffect(()=>{
         getAllComplaint()
     },[])
+
+    const deleteMessage=(message_id)=>{
+        Axios.delete(`http://localhost:3000/dashboard/${message_id}`).then((responce)=>{
+            console.log(responce.data)
+            getAllComplaint()
+
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+    }
+
+    const updateStatus=(message_id)=>{
+        Axios.put(`http://localhost:3000/update` , {status:status , message_id:message_id}).then((responce)=>{
+          console.log(responce.data)
+          getAllComplaint()
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+    }
     return (
         <div>
             <Navbar/>
@@ -31,15 +53,16 @@ import Navbar from '../Profile/Navbar/Navbar'
     <p className="card-text"> Mobile Phone: {value.Phone} </p>
     -----------------------------------------
     <h5 className='card-text'> {value.message} </h5>
-    <button className='btn btn-primary' >Cancel</button>  { }
-    <button type='button' className='btn btn-primary'> Pending </button>
+    <button className='btn btn-primary' onClick={()=> deleteMessage(value.message_id) } >Cancel</button> ||  { }
+    <label> The status is: </label> <input type='text' onChange={(event)=>{
+        setNewStatus(event.target.value)
+    }}/>  <button className='btn btn-primary' onClick={()=>updateStatus(value.message_id)}>Update status</button>
+    <div> <p> The status is: {value.status} </p> </div>
+    
   </div>
 </div>
                </div>  
             })}
-                
-             
-            
         </div>
     )
 }

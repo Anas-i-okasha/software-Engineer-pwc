@@ -1,7 +1,7 @@
 const express = require ('express');
 const mainRouter = express.Router();
 
-const {userSignup , userLogin , userComplaint , getAllComplaint , getMyMessage}=require('../controller/main-controller')
+const {userSignup , userLogin , userComplaint , getAllComplaint , getMyMessage , deleteMessageById ,statusUpdate}=require('../controller/main-controller')
 // Api for user login 
 mainRouter.post('/',userLogin)
 // Api for user register
@@ -13,6 +13,10 @@ mainRouter.post('/dashboard',userComplaint)
 mainRouter.get('/admin', getAllComplaint)
 
 mainRouter.get ('/prof' , getMyMessage)
+
+mainRouter.delete('/dashboard/:message_id',deleteMessageById)
+
+mainRouter.put('/update',statusUpdate)
 
 
 

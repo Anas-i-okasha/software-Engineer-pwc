@@ -31,6 +31,7 @@ import Navbar from './Navbar/Navbar'
     <p className="card-text"> Mobile Phone: {value.Phone} </p>
     -----------------------------------------
     <h5 className='card-text'> {value.message} </h5>
+    <div >  <p> {value.status} </p> </div>
 
   </div>
 </div>
