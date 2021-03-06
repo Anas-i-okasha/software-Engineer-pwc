@@ -11,6 +11,11 @@ import './Login.css'
      const [email , setemail]=useState('')
      const [password,setpassword]=useState('')
      const addLogin=()=>{
+     /*  The admin page who has secret email and password in .env */
+        if(email=='admin@admin' && password=="admin@456"){
+            console.log("done")
+           history.push('/admin')
+       }
          if(email.length<3 || password.length<3 ){
             swal({
                 icon:'error',
@@ -20,9 +25,10 @@ import './Login.css'
             })
          }
          Axios.post('http://localhost:3000/',{email:email , password:password}).then((data)=>{
-             if(data.data){
+              if(data.data){
                   history.push('/dashboard')
-             }else{
+                  return;
+              }else{
                  console.log('plz enter your email and passowrd')
              }
             

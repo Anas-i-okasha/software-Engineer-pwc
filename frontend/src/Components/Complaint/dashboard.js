@@ -2,24 +2,15 @@ import React from 'react';
 import {useState} from 'react';
 import Axios from 'axios';
 import swal from 'sweetalert';
+import Navbar from '../Navbar/Navbar'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './dashboard.css'
 
  const Dashboard=()=> {
      const [message_name , setFullName]=useState("")
      const [message_subject , setSubject]=useState("")
-     const [Phone , setPhone]=useState("")
+     const [Phone , setPhone]=useState(0)
      const [message , setMessage]=useState("")
-
-    //  const getAllComplaint=()=>{
-    //      Axios.get('http://localhost:3000/admin').then((responce)=>{
-    //          setMessages(responce.data)
-    //      })
-    //      .catch((err)=>{
-    //          console.log(err)
-
-    //      })
-    //  }
 
      const addNewMessage=()=>{
          if(message_name===''|| message_subject===''|| message==='' || Phone===''){
@@ -48,7 +39,8 @@ import './dashboard.css'
      }
     return (
         <div className='container'>
-            <div className='row'>
+            <Navbar/>
+            <div className='row justify-content-center'>
                 <div className='col-md-6'>
                     <div className='group'>
                         <h2 className='header'> A Coustmer complaint </h2>
@@ -70,12 +62,8 @@ import './dashboard.css'
                         </center>
                         
                     </form>
-                    {/* <div>  {messages.map((value , i)=><Admin oneComplaint={value} getAll={getAllComplaint} />)}  </div> */}
                     
                     </div>
-                    
-                    
-
                 </div>
             </div>
             
